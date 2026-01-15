@@ -1,5 +1,5 @@
-pandas
-plotly
-requests
 streamlit
-locale
+pandas
+numpy
+plotly
+openpyxl
