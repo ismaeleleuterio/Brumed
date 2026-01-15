@@ -5,7 +5,6 @@ import streamlit as st
 import locale
 import plotly.graph_objects as go
 
-locale.setlocale(locale.LC_TIME, "pt_BR.UTF-8")
 
 df = pd.read_excel("Base Brumed.xlsx")
 
