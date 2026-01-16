@@ -841,7 +841,7 @@ styler_simples_real = (
 
 menu = st.sidebar.radio(
     "Navegação",
-    ["Dashboard", "Demonstrações", "Tabelas", "Comparativo das apurações"]
+    ["Dashboard", "Demonstrações Financeiras", "Tabelas", "Comparativo das apurações"]
 )
 
 if menu == "Dashboard":
@@ -1241,3 +1241,4 @@ if menu == "Tabelas":
             )
         }
     )
+
