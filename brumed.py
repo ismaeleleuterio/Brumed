@@ -4,7 +4,7 @@ import requests
 import streamlit as st
 import locale
 import plotly.graph_objects as go
-
+import os
 
 df = pd.read_excel("Base Brumed.xlsx")
 
@@ -627,9 +627,221 @@ st.set_page_config(
 
 st.sidebar.image("Assinatura visual 11B.png", use_container_width=True)
 
+#### CONTÁBIL 1 ####
+
+df_encargos = pd.read_excel(
+    "PLANILHA COMPARATIVA TRIBUTACAO.xlsx",
+    sheet_name="ENCARGOS TRABALHISTAS"
+)
+
+df_encargos = df_encargos.where(pd.notna(df_encargos), "")
+
+# ===============================
+# FUNÇÕES DE FORMATAÇÃO
+# ===============================
+def formato_automatico(v):
+    # Trata None, NaN e vazios
+    if v is None or (isinstance(v, float) and pd.isna(v)):
+        return ""
+
+    # Texto → retorna como está
+    if not isinstance(v, (int, float)):
+        return v
+
+    # Percentual (ex: 0.28 = 28%)
+    if -1 <= v <= 1:
+        texto = f"{abs(v) * 100:.1f}%"
+        return f"({texto})" if v < 0 else texto
+
+    # Monetário
+    texto = (
+        f"R$ {abs(v):,.2f}"
+        .replace(",", "X")
+        .replace(".", ",")
+        .replace("X", ".")
+    )
+
+    return f"({texto})" if v < 0 else texto
+def zebra_linhas(row):
+    cor = "#f2f2f2" if row.name % 2 else "white"
+    return [f"background-color: {cor}"] * len(row)
+
+def estilo_negativo_parenteses(v):
+    if isinstance(v, str):
+        v_strip = v.strip()
+        if v_strip.startswith("(") and v_strip.endswith(")"):
+            return "color: red;"
+    return ""
+
+
+# ===============================
+# STYLER FINAL
+# ===============================
+
+styler_encargos = (
+    df_encargos
+    .style
+    .format(formato_automatico)
+    .apply(zebra_linhas, axis=1)
+)
+df_encargos_2 = pd.read_excel(
+    "PLANILHA COMPARATIVA TRIBUTACAO.xlsx",
+    sheet_name="ENCARGOS TRABALHISTAS (2)"
+).where(pd.notna, "")
+
+styler_encargos_2 = (
+    df_encargos_2
+    .style
+    .format(formato_automatico)
+    .apply(zebra_linhas, axis=1)
+)
+
+
+### CONTÁBIL 2 ###
+df_simples = pd.read_excel(
+    "PLANILHA COMPARATIVA TRIBUTACAO.xlsx",
+    sheet_name="SIMPLES"
+)
+
+df_simples = df_simples.where(pd.notna(df_simples), "")
+
+styler_simples = (
+    df_simples
+    .style
+    .format(formato_automatico)
+    .apply(zebra_linhas, axis=1)
+)
+
+
+### CONTABIL 3 ###
+df_lp_normais = pd.read_excel(
+    "PLANILHA COMPARATIVA TRIBUTACAO.xlsx",
+    sheet_name="L. PRESUMIDO SERV. NORMAIS"
+).where(pd.notna, "")
+
+styler_lp_normais = (
+    df_lp_normais
+    .style
+    .format(formato_automatico)
+    .apply(zebra_linhas, axis=1)
+)
+
+df_lp_normais_2 = pd.read_excel(
+    "PLANILHA COMPARATIVA TRIBUTACAO.xlsx",
+    sheet_name="L. PRESUMIDO SERV. NORMAIS (2)"
+).where(pd.notna, "")
+
+styler_lp_normais_2 = (
+    df_lp_normais_2
+    .style
+    .format(formato_automatico)
+    .apply(zebra_linhas, axis=1)
+)
+
+df_lp_normais_3 = pd.read_excel(
+    "PLANILHA COMPARATIVA TRIBUTACAO.xlsx",
+    sheet_name="L. PRESUMIDO SERV. NORMAIS (3)"
+).where(pd.notna, "")
+
+styler_lp_normais_3 = (
+    df_lp_normais_3
+    .style
+    .format(formato_automatico)
+    .apply(zebra_linhas, axis=1)
+)
+
+
+### CONTÁBIL 4 ###
+df_lp_medicos = pd.read_excel(
+    "PLANILHA COMPARATIVA TRIBUTACAO.xlsx",
+    sheet_name="L. PRESUMIDO SERV. MÉDICOS"
+).where(pd.notna, "")
+
+styler_lp_medicos = (
+    df_lp_medicos
+    .style
+    .format(formato_automatico)
+    .apply(zebra_linhas, axis=1)
+)
+
+df_lp_medicos_2 = pd.read_excel(
+    "PLANILHA COMPARATIVA TRIBUTACAO.xlsx",
+    sheet_name="L. PRESUMIDO SERV. MÉDICOS (2)"
+).where(pd.notna, "")
+
+styler_lp_medicos_2 = (
+    df_lp_medicos_2
+    .style
+    .format(formato_automatico)
+    .apply(zebra_linhas, axis=1)
+)
+
+df_lp_medicos_3 = pd.read_excel(
+    "PLANILHA COMPARATIVA TRIBUTACAO.xlsx",
+    sheet_name="L. PRESUMIDO SERV. MÉDICOS (3)"
+).where(pd.notna, "")
+
+styler_lp_medicos_3 = (
+    df_lp_medicos_3
+    .style
+    .format(formato_automatico)
+    .apply(zebra_linhas, axis=1)
+)
+
+### CONTÁBIL 5 ###
+df_lr = pd.read_excel(
+    "PLANILHA COMPARATIVA TRIBUTACAO.xlsx",
+    sheet_name="L. REAL"
+).where(pd.notna, "")
+
+styler_lr = (
+    df_lr
+    .style
+    .format(formato_automatico)
+    .apply(zebra_linhas, axis=1)
+)
+
+df_lr_2 = pd.read_excel(
+    "PLANILHA COMPARATIVA TRIBUTACAO.xlsx",
+    sheet_name="L. REAL (2)"
+).where(pd.notna, "")
+
+styler_lr_2 = (
+    df_lr_2
+    .style
+    .format(formato_automatico)
+    .apply(zebra_linhas, axis=1)
+)
+
+df_lr_3 = pd.read_excel(
+    "PLANILHA COMPARATIVA TRIBUTACAO.xlsx",
+    sheet_name="L. REAL (3)"
+).where(pd.notna, "")
+
+styler_lr_3 = (
+    df_lr_3
+    .style
+    .format(formato_automatico)
+    .apply(zebra_linhas, axis=1)
+)
+
+### CONTÁBIL 6 ###
+df_simples_real = pd.read_excel(
+    "PLANILHA COMPARATIVA TRIBUTACAO.xlsx",
+    sheet_name="SIMPLES FOLHA + REAL APURAÇÃO"
+).where(pd.notna, "")
+
+styler_simples_real = (
+    df_simples_real
+    .style
+    .format(formato_automatico)
+    .apply(zebra_linhas, axis=1)
+
+)
+
 menu = st.sidebar.radio(
     "Navegação",
-    ["Dashboard", "Demonstrações", "Tabelas"]
+    ["Dashboard", "Demonstrações", "Tabelas", "Comparativo das apurações"]
 )
 
 if menu == "Dashboard":
@@ -938,7 +1150,7 @@ if menu == "Dashboard":
 )
 
 
-if menu == "Demonstrações":
+if menu == "Demonstrações Financeiras":
     st.subheader("📊 Demonstração do Resultado do Exercício (DRE)")
     st.dataframe(
             styler_dre_anual,
@@ -957,14 +1169,46 @@ if menu == "Demonstrações":
     st.subheader("📊 Fluxo de Caixa Mensal")
     st.dataframe(styler_fluxo, use_container_width=True, hide_index=True)
 
+if menu == "Comparativo das apurações":
+    st.subheader("Encargos Trabalhistas")
+    st.dataframe(
+    styler_encargos,
+    use_container_width=True,
+    hide_index=True
+)
+    st.dataframe(styler_encargos_2, use_container_width=True, hide_index=True
+)
+    st.subheader("Quadro Comparativo dos Encargos Trabalhistas")
+    st.dataframe(
+    styler_simples,
+    use_container_width=True,
+    hide_index=True
+)
+    st.subheader("Apuração L. Presumido - Serviços em Geral")
+    st.dataframe(styler_lp_normais, use_container_width=True, hide_index=True
+)
+    st.dataframe(styler_lp_normais_2, use_container_width=True, hide_index=True
+)
+    st.dataframe(styler_lp_normais_3, use_container_width=True, hide_index=True
+)
+    st.subheader("Apuração L. Presumido - Serviços Médicos")
+    st.dataframe(styler_lp_medicos, use_container_width=True, hide_index=True)
+    st.dataframe(styler_lp_medicos_2, use_container_width=True, hide_index=True
+)
+    st.dataframe(styler_lp_medicos_3, use_container_width=True, hide_index=True
+)
+    st.subheader("Apuração L. Real")
+    st.dataframe(styler_lr, use_container_width=True, hide_index=True
+)
+    st.dataframe(styler_lr_2, use_container_width=True, hide_index=True
+)
+    st.dataframe(styler_lr_3, use_container_width=True, hide_index=True
+)
 
-if menu == "Tabelas":
-    st.subheader("Base de Dados utilizada")
-    st.dataframe(df_long, use_container_width=True,
-        column_config={
-            "MES": st.column_config.DateColumn(
-                "Mês",
-                format="MM/yyyy"
-            )
-        }
-    )
+    st.subheader("Apuração conjugada Simples (Folha) + L. Real")
+    st.dataframe(styler_simples_real, use_container_width=True, hide_index=True
+)
+
+
+
+
