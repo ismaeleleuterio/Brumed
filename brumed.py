@@ -1347,7 +1347,7 @@ if menu == "Comparativo das apurações":
     unsafe_allow_html=True
 )
 
-    st.subheader("Apuração L. Presumido - Serviços Médicos")
+    st.subheader("Apuração L. Presumido - Equiparação Hospitalar")
     st.dataframe(styler_lp_medicos, use_container_width=True, hide_index=True)
     st.dataframe(styler_lp_medicos_2, use_container_width=True, hide_index=True
 )
@@ -1544,3 +1544,4 @@ if menu == "Tabelas":
             )
         }
     )
+
