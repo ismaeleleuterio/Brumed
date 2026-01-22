@@ -198,7 +198,7 @@ def formato_percentual(valor):
 styler_dre_anual = (
     dre_df
     .style
-    .style.applymap(estilo_financeiro, subset=["Valor", "AV (%)"])
+    .applymap(estilo_financeiro, subset=["Valor", "AV (%)"])
     .format({
         "Valor": formato_contabil,
         "AV (%)": formato_percentual
@@ -1667,4 +1667,3 @@ if menu == "Anexo de dados suporte":
             )
         }
     )
-
