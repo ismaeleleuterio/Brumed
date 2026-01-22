@@ -1,5 +1,6 @@
-pandas
-plotly
-requests
 streamlit
+pandas
+numpy
+plotly
 openpyxl
+altair==4.2.2
